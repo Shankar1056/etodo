@@ -242,6 +242,7 @@ public class MainActivity extends BaseActivity implements OnConnectionFailedList
         hotdeallayout.setOnClickListener(this);
         drawerlist.setOnClickListener(this);
         rechargelayout.setOnClickListener(this);
+        feedback.setOnClickListener(this);
 
         toolbartext.setTypeface(Utilz.font(MainActivity.this, "medium"));
         serach.setTypeface(Utilz.font(MainActivity.this, "medium"));
@@ -589,6 +590,9 @@ public class MainActivity extends BaseActivity implements OnConnectionFailedList
             case R.id.profile:
                 drawer.closeDrawer(GravityCompat.END);
                 startActivity(new Intent(MainActivity.this, ProfileActivity.class));
+                break;
+            case R.id.feedback:
+                startActivity(new Intent(MainActivity.this, FeedBackForm.class));
                 break;
         }
 
