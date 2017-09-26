@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/margin_60"
+    tools:context="apextechies.etodo.activity.MainActivity">
+
+
+<include
+
+    layout="@layout/popularslider"/>
+
+    <include layout="@layout/content_main" />
+
+
+
+</LinearLayout>

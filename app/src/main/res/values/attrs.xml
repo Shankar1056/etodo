@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<resources>
+    <declare-styleable name="RippleView">
+        <attr name="rv_alpha" format="integer" />
+        <attr name="rv_framerate" format="integer"/>
+        <attr name="rv_rippleDuration" format="integer"/>
+        <attr name="rv_zoomDuration" format="integer" />
+        <attr name="rv_color" format="color" />
+        <attr name="rv_centered" format="boolean" />
+        <attr name="rv_type" format="enum">
+            <enum name="simpleRipple" value="0"/>
+            <enum name="doubleRipple" value="1"/>
+            <enum name="rectangle" value="2" />
+        </attr>
+        <attr name="rv_ripplePadding" format="dimension" />
+        <attr name="rv_zoom" format="boolean" />
+        <attr name="rv_zoomScale" format="float" />
+
+    </declare-styleable>
+    <declare-styleable name="TimerView">
+        <attr name="circleColor" format="color"/>
+    </declare-styleable>
+    <declare-styleable name="Pulsator4Droid">
+        <attr name="pulse_count" format="integer"/>
+        <attr name="pulse_duration" format="integer"/>
+        <attr name="pulse_color" format="color"/>
+        <attr name="pulse_repeat" format="integer"/>
+        <attr name="pulse_startFromScratch" format="boolean"/>
+    </declare-styleable>
+    <attr name="cropImageStyle" format="reference" />
+
+    <declare-styleable name="CropImageView">
+        <attr name="highlightColor" format="reference|color" />
+        <attr name="showThirds" format="boolean" />
+        <attr name="showCircle" format="boolean" />
+        <attr name="showHandles">
+            <enum name="changing" value="0" />
+            <enum name="always" value="1" />
+            <enum name="never" value="2" />
+        </attr>
+    </declare-styleable>
+
+    <declare-styleable name="CrystalRangeSeekbar" >
+        <attr name="corner_radius" format="float" />
+        <attr name="min_value" format="float" />
+        <attr name="max_value" format="float" />
+        <attr name="min_start_value" format="float" />
+        <attr name="max_start_value" format="float" />
+        <attr name="steps" format="float" />
+        <attr name="gap" format="float" />
+        <attr name="fix_gap" format="float" />
+        <attr name="bar_color" format="color" />
+        <attr name="bar_highlight_color" format="color" />
+        <attr name="left_thumb_color" format="color" />
+        <attr name="left_thumb_color_pressed" format="color" />
+        <attr name="left_thumb_image" format="reference" />
+        <attr name="left_thumb_image_pressed" format="reference" />
+        <attr name="right_thumb_color" format="color" />
+        <attr name="right_thumb_color_pressed" format="color" />
+        <attr name="right_thumb_image" format="reference" />
+        <attr name="right_thumb_image_pressed" format="reference" />
+        <attr name="position" format="enum">
+            <enum name="left" value="0" />
+            <enum name="right" value="1" />
+        </attr>
+        <attr name="data_type" format="enum">
+            <enum name="_long" value="0" />
+            <enum name="_double" value="1" />
+            <enum name="_integer" value="2" />
+            <enum name="_float" value="3" />
+            <enum name="_short" value="4" />
+            <enum name="_byte" value="5" />
+        </attr>
+    </declare-styleable>
+    <declare-styleable name="HorizontalCalendarView">
+        <!-- Text color for all dates except selected Date.-->
+        <attr name="textColorNormal" format="color" />
+        <!-- Text color for selected Date. -->
+        <attr name="textColorSelected" format="color" />
+        <!-- Background color for selector bar. -->
+        <attr name="selectorColor" format="color" />
+        <!-- Background color for selected date item. -->
+        <attr name="selectedDateBackground" format="color" />
+    </declare-styleable>
+
+
+
+
+    <attr name="ttlm_defaultStyle" format="reference" />
+
+    <!-- default style -->
+    <declare-styleable name="TooltipLayout">
+        <attr name="ttlm_padding" format="dimension" />
+        <attr name="ttlm_strokeColor" format="color" />
+        <attr name="ttlm_backgroundColor" format="color" />
+        <attr name="ttlm_strokeWeight" format="dimension" />
+        <attr name="ttlm_cornerRadius" format="dimension" />
+        <attr name="ttlm_arrowRatio" format="float" />
+        <attr name="android:textAppearance" />
+        <attr name="android:gravity" />
+        <attr name="ttlm_overlayStyle" format="reference" />
+        <attr name="ttlm_font" format="string" />
+
+        <!-- elevation of the tooltip. Works only on non custom views -->
+        <attr name="ttlm_elevation" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="TooltipOverlay">
+        <attr name="android:color" />
+        <attr name="android:alpha" />
+        <attr name="ttlm_repeatCount" format="integer" />
+        <attr name="ttlm_duration" format="integer" />
+        <attr name="android:layout_margin" />
+    </declare-styleable>
+
+
+
+
+</resources>
