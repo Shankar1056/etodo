@@ -314,4 +314,32 @@ public class Utilz {
 		}
 		return typeface;
 	}
+	
+	public static String calculatedistanceinkm(double latti, double longi, String latitude, String longitude) {
+		
+		
+		double distance = 0, dist = 0;
+		try {
+			
+			
+			double theta = longi - Double.parseDouble(longitude);
+			dist = Math.sin(deg2rad(latti)) * Math.sin(deg2rad(Double.parseDouble(latitude))) + Math.cos(deg2rad(latti)) * Math.cos(deg2rad(Double.parseDouble(latitude))) * Math.cos(deg2rad(theta));
+			dist = Math.acos(dist);
+			dist = rad2deg(dist);
+			dist = dist * 60 * 1.1515;
+			dist = dist * 1.609344;
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return String.format("%.2f", dist);
+	}
+	private static double deg2rad(double deg) {
+		return (deg * Math.PI / 180.0);
+	}
+	
+	private static double rad2deg(double rad) {
+		return (rad * 180.0 / Math.PI);
+	}
 }
+
