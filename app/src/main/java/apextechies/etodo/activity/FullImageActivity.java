@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 import apextechies.etodo.R;
 import apextechies.etodo.adapter.FullImagesAdapter;
-import apextechies.etodo.model.CatBanner;
+import apextechies.etodo.model.OfferBannerDesc;
 import io.fabric.sdk.android.Fabric;
 
 /**
@@ -22,7 +22,7 @@ import io.fabric.sdk.android.Fabric;
 public class FullImageActivity extends AppCompatActivity{
 	private ViewPager mViewPager;
 	private int total_length;
-	private ArrayList<CatBanner> catBanners = new ArrayList<>();
+	private ArrayList<OfferBannerDesc> offerBannerDescs = new ArrayList<>();
 	private FullImagesAdapter fullImagesAdapter;
 	private String position;
 	
@@ -31,11 +31,11 @@ public class FullImageActivity extends AppCompatActivity{
 		super.onCreate(savedInstanceState);
 		Fabric.with(this, new Crashlytics());
 		setContentView(R.layout.fullscreen_activity);
-		catBanners = getIntent().getParcelableArrayListExtra("list");
+		offerBannerDescs = getIntent().getParcelableArrayListExtra("list");
 		position = getIntent().getStringExtra("pos");
 		mViewPager = (ViewPager) findViewById(R.id.view_pager);
 		fullImagesAdapter = new FullImagesAdapter(getSupportFragmentManager(),
-		    catBanners,total_length,position);
+                offerBannerDescs,total_length,position);
 		mViewPager.setAdapter(fullImagesAdapter);
 		try {
 			mViewPager.setCurrentItem(Integer.parseInt(position));

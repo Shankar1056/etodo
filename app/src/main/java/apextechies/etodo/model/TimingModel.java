@@ -6,40 +6,34 @@ package apextechies.etodo.model;
  */
 
 public class TimingModel {
-	public String getTime_id() {
-		return time_id;
-	}
-	
-	public String getDay() {
-		return day;
-	}
-	
-	public String getOpen_time() {
-		return open_time;
-	}
-	
-	public String getClose_time() {
-		return close_time;
-	}
-	
-	String time_id;
+
 	String day;
 	String open_time;
 	String close_time;
-	
-	public String getOpen_status() {
-		return open_status;
+	String typefacetype;
+	public TimingModel(String day, String open_time, String close_time)
+	{
+		this.day = day;
+		this.open_time = open_time;
+		this.close_time = close_time;
 	}
-	
-	String open_status;
-	
+	public String getDay() {return day;	}
+
+	public String getOpen_time() {
+		return open_time;
+	}
+
+	public String getClose_time() {
+		return close_time;
+	}
+
 	public String getTypefacetype() {
 		return typefacetype;
 	}
-	
+
 	public void setTypefacetype(String typefacetype) {
 		this.typefacetype = typefacetype;
 	}
-	
-	String typefacetype;
+
+
 }

@@ -15,20 +15,20 @@ import java.util.ArrayList;
 
 import apextechies.etodo.R;
 import apextechies.etodo.activity.OfferShopDescription;
-import apextechies.etodo.model.CatBanner;
+import apextechies.etodo.model.OfferBannerDesc;
 import apextechies.etodo.network.Utilz;
 
 
 public class SlidingImage_Adapter extends PagerAdapter {
 
 
-    private ArrayList<CatBanner> imageModelArrayList;
+    private ArrayList<OfferBannerDesc> imageModelArrayList;
     private LayoutInflater inflater;
     private Context context;
     private OfferShopDescription description;
 
 
-    public SlidingImage_Adapter(Context context, ArrayList<CatBanner> imageModelArrayList, OfferShopDescription description) {
+    public SlidingImage_Adapter(Context context, ArrayList<OfferBannerDesc> imageModelArrayList, OfferShopDescription description) {
         this.context = context;
         this.imageModelArrayList = imageModelArrayList;
         this.description = description;

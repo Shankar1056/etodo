@@ -4,12 +4,12 @@
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
-	android:orientation="vertical">
+	android:orientation="vertical"
+	android:background="@color/app_back">
 
-	<LinearLayout
+<!--	<LinearLayout
 		android:layout_width="match_parent"
 		android:layout_height="@dimen/margin_50"
-		android:background="@color/colorPrimary"
 		android:gravity="center"
 		android:orientation="horizontal">
 
@@ -29,6 +29,57 @@
 			android:textColor="@color/white"
 			android:textSize="@dimen/text_15"
 			android:textStyle="normal"/>
+	</LinearLayout>-->
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="50dp"
+		android:orientation="horizontal"
+		android:layout_marginLeft="@dimen/margin_10">
+		<LinearLayout
+			android:layout_width="@dimen/margin_50"
+			android:layout_height="@dimen/margin_50"
+			android:gravity="center"
+			android:id="@+id/backimage">
+			<ImageView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_gravity="center"
+				android:background="@mipmap/back"
+				android:visibility="visible"/>
+		</LinearLayout>
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:orientation="vertical"
+			android:layout_weight=".3"
+			android:gravity="center">
+			<TextView
+				android:id="@+id/toolbartext"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:gravity="center"
+				android:textColor="@color/black"
+				android:textStyle="normal"
+				android:textSize="@dimen/margin_14"/>
+
+		</LinearLayout>
+		<LinearLayout
+			android:id="@+id/leftdrawer"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:layout_weight=".7"
+			android:gravity="center|right"
+			android:visibility="invisible"
+			android:layout_marginRight="@dimen/margin_15">
+			<ImageView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:id="@+id/searchicon"
+				android:layout_gravity="center"
+				android:background="@mipmap/menu"
+				android:layout_centerVertical="true"
+				android:visibility="invisible"/>
+		</LinearLayout>
 	</LinearLayout>
 
 	<android.support.v4.widget.NestedScrollView
@@ -45,10 +96,11 @@
 				android:layout_width="match_parent"
 				android:layout_height="300dp">
 
-				<android.support.v4.view.ViewPager
+				<ImageView
 					android:id="@+id/pager"
 					android:layout_width="fill_parent"
 					android:layout_height="fill_parent"
+					android:scaleType="fitXY"
 					android:layout_alignParentTop="true"/>
 
 				<com.viewpagerindicator.CirclePageIndicator
@@ -80,7 +132,7 @@
 						android:layout_width="match_parent"
 						android:layout_height="wrap_content"
 						android:layout_weight=".5"
-						android:text=""
+						android:text="1 photo"
 						android:maxLines="1"
 						android:textColor="@color/white"
 						android:textSize="@dimen/text_14"
@@ -96,7 +148,7 @@
 						android:text="  "
 						android:maxLines="1"
 						android:textColor="@color/white"
-						android:textSize="@dimen/text_14"
+						android:textSize="@dimen/text_12"
 						android:textStyle="normal"
 						android:visibility="visible"/>
 				</LinearLayout>
@@ -197,17 +249,11 @@
 						android:layout_weight=".7"
 						android:gravity="center">
 
-						<TextView
+						<ImageView
 							android:id="@+id/gotomap"
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
-							android:background="@drawable/rectanglebutton"
-							android:paddingBottom="@dimen/margin_7"
-							android:paddingLeft="@dimen/margin_10"
-							android:paddingRight="@dimen/margin_10"
-							android:paddingTop="@dimen/margin_7"
-							android:text="gotomap"
-							android:textColor="@color/colorPrimary"/>
+							android:background="@mipmap/direction"/>
 					</LinearLayout>
 				</LinearLayout>
 

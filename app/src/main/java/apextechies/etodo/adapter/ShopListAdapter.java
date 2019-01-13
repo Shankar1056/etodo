@@ -61,15 +61,15 @@ public class ShopListAdapter extends RecyclerView.Adapter<ShopListAdapter.MyView
 		holder.cat_location.setTypeface(Utilz.font(context, "regular"));
 		holder.distanceinkm.setTypeface(Utilz.font(context, "regular"));
 		
-		holder.cat_name.setText(sa.getShop_name());
-		holder.distanceinkm.setText(""+sa.getDistance());
+		holder.cat_name.setText(sa.getShopName());
+		holder.distanceinkm.setText(""+sa.getDistance()+" km");
 		
 		String text = "";
 		
 		if (text.equalsIgnoreCase("")) {
-			text = myCartModels.get(position).getLocation();
+			text = myCartModels.get(position).getShopLocation();
 		} else {
-			text = text + "," + myCartModels.get(position).getLocation();
+			text = text + "," + myCartModels.get(position).getShopLocation();
 		}
 		
 		

@@ -2,19 +2,27 @@ package apextechies.etodo.activity;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
+import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.ResultReceiver;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityCompat.OnRequestPermissionsResultCallback;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
@@ -99,9 +107,11 @@ import apextechies.etodo.tooltip.Tooltip;
 import apextechies.etodo.webservices.WebServices;
 import io.fabric.sdk.android.Fabric;
 
+import static apextechies.etodo.activity.SearchAddressGooglePlacesActivity.REQUEST_LOCATION;
+
 public class MainActivity extends BaseActivity implements OnConnectionFailedListener, View.OnClickListener,
         ConnectionCallbacks, OnRequestPermissionsResultCallback, PermissionUtils.PermissionResultCallback,
-        ObservableScrollViewCallbacks, SwipeRefreshLayout.OnRefreshListener {
+        ObservableScrollViewCallbacks, SwipeRefreshLayout.OnRefreshListener,LocationListener {
 
     private TextView toolbartext;
     private RelativeLayout leftdrawer;
@@ -152,6 +162,9 @@ public class MainActivity extends BaseActivity implements OnConnectionFailedList
 
     double latitude;
     double longitude;
+    protected LocationManager locationManager;
+    private static final long MIN_DISTANCE_FOR_UPDATE = 10;
+    private static final long MIN_TIME_FOR_UPDATE = 1000 * 60 * 2;
 
     // list of permissions
 
@@ -220,9 +233,9 @@ public class MainActivity extends BaseActivity implements OnConnectionFailedList
         privacy = (TextView) findViewById(R.id.privacy);
         termsconition = (TextView) findViewById(R.id.termsconition);
         TextView cancellation = (TextView) findViewById(R.id.cancellation);
-        TextView flightlayout = (TextView) findViewById(R.id.flightlayout);
-        TextView myholidaylayout = (TextView) findViewById(R.id.myholidaylayout);
-        TextView rechargelayout = (TextView) findViewById(R.id.rechargelayout);
+        TextView travellayout = (TextView) findViewById(R.id.travellayout);
+        TextView educationlayout = (TextView) findViewById(R.id.educationlayout);
+        TextView shoppinglayout = (TextView) findViewById(R.id.shoppinglayout);
         TextView hotdeallayout = (TextView) findViewById(R.id.hotdeallayout);
         ImageView feedback = (ImageView)findViewById(R.id.feedback);
 
@@ -237,11 +250,11 @@ public class MainActivity extends BaseActivity implements OnConnectionFailedList
         privacy.setOnClickListener(this);
         termsconition.setOnClickListener(this);
         cancellation.setOnClickListener(this);
-        flightlayout.setOnClickListener(this);
-        myholidaylayout.setOnClickListener(this);
+        travellayout.setOnClickListener(this);
+        educationlayout.setOnClickListener(this);
         hotdeallayout.setOnClickListener(this);
         drawerlist.setOnClickListener(this);
-        rechargelayout.setOnClickListener(this);
+        shoppinglayout.setOnClickListener(this);
         feedback.setOnClickListener(this);
 
         toolbartext.setTypeface(Utilz.font(MainActivity.this, "medium"));
@@ -255,9 +268,9 @@ public class MainActivity extends BaseActivity implements OnConnectionFailedList
         privacy.setTypeface(Utilz.font(MainActivity.this, "medium"));
         termsconition.setTypeface(Utilz.font(MainActivity.this, "medium"));
         cancellation.setTypeface(Utilz.font(MainActivity.this, "medium"));
-        flightlayout.setTypeface(Utilz.font(MainActivity.this, "medium"));
-        rechargelayout.setTypeface(Utilz.font(MainActivity.this, "medium"));
-        myholidaylayout.setTypeface(Utilz.font(MainActivity.this, "medium"));
+        travellayout.setTypeface(Utilz.font(MainActivity.this, "medium"));
+        shoppinglayout.setTypeface(Utilz.font(MainActivity.this, "medium"));
+        educationlayout.setTypeface(Utilz.font(MainActivity.this, "medium"));
         hotdeallayout.setTypeface(Utilz.font(MainActivity.this, "medium"));
 
         name.setText(ClsGeneral.getPreferences(MainActivity.this, ClsGeneral.USER_NAME));
@@ -299,7 +312,7 @@ public class MainActivity extends BaseActivity implements OnConnectionFailedList
             new Tooltip.Builder()
                 .anchor(feedback, Tooltip.Gravity.BOTTOM)
                 .closePolicy(mClosePolicy, 40000)
-                .text("Feedback")
+                .text("Offers Near You")
                 .withArrow(true)
                 .withOverlay(false)
                 .maxWidth((int) (metrics.widthPixels / 2.5))
@@ -328,20 +341,25 @@ public class MainActivity extends BaseActivity implements OnConnectionFailedList
             @Override
             public void onPageSelected(int position) {
                 Log.e("onPageSelected", "position " + position);
-                if (previousPage != position) {
-                    //changed
-
-                    dotsAdapter.setSelected(position);
-                    dotsAdapter.notifyDataSetChanged();
+                try {
+                    if (previousPage != position) {
+                        dotsAdapter.setSelected(position);
+                        dotsAdapter.notifyDataSetChanged();
+                    }
+                    previousPage = position;
                 }
-                previousPage = position;
+                catch (NullPointerException e)
+                {
+                    e.printStackTrace();
+                }
+
             }
 
             @Override
             public void onPageScrollStateChanged(int state) {
                 Log.e("onScrollStateChanged", "state " + state);
 
-                previousState = state;
+               // previousState = state;
 
             }
         });
@@ -521,17 +539,18 @@ public class MainActivity extends BaseActivity implements OnConnectionFailedList
                 }
                 break;
             
-            case R.id.flightlayout:
-                openwebsite();
+            case R.id.travellayout:
+                openwebsite("https://play.google.com/store/apps/details?id=com.musafirbazar.app.musafirbazar");
                 break;
-            case R.id.myholidaylayout:
-                openwebsite();
+            case R.id.educationlayout:
+                openwebsite("https://play.google.com/store/apps/details?id=com.apextechies.eretort");
                 break;
-            case R.id.rechargelayout:
-                openwebsite();
+            case R.id.shoppinglayout:
+                openwebsite("https://ecommerce.musafirbazar.com/");
                 break;
             case R.id.hotdeallayout:
-                openwebsite();
+                openwebsite("https://www.musafirbazar.com/");
+              //  startActivity(new Intent(MainActivity.this,OffersList.class));
                 break;
             case R.id.drawerlist:
 
@@ -592,7 +611,8 @@ public class MainActivity extends BaseActivity implements OnConnectionFailedList
                 startActivity(new Intent(MainActivity.this, ProfileActivity.class));
                 break;
             case R.id.feedback:
-                startActivity(new Intent(MainActivity.this, FeedBackForm.class));
+              //  startActivity(new Intent(MainActivity.this, FeedBackForm.class));
+                startActivity(new Intent(MainActivity.this,OffersList.class));
                 break;
         }
 
@@ -645,9 +665,8 @@ public class MainActivity extends BaseActivity implements OnConnectionFailedList
 
     }
 
-    private void openwebsite() {
+    private void openwebsite(String url) {
         try {
-            String url = "http://www.musafirbazar.com/";
             Intent i = new Intent(Intent.ACTION_VIEW);
             i.setData(Uri.parse(url));
             startActivity(i);
@@ -661,6 +680,31 @@ public class MainActivity extends BaseActivity implements OnConnectionFailedList
         if (Utilz.isInternetConnected(MainActivity.this))
             expandable_list_swipe.setRefreshing(true);
         callapi();
+    }
+
+    public void sendos() {
+        startActivity(new Intent(MainActivity.this,OffersList.class));
+
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+
     }
 
 
@@ -756,21 +800,41 @@ public class MainActivity extends BaseActivity implements OnConnectionFailedList
         if (isPermissionGranted) {
 
             try {
-                mLastLocation = LocationServices.FusedLocationApi
+              /*  mLastLocation = LocationServices.FusedLocationApi
                         .getLastLocation(mGoogleApiClient);
                 if (mLastLocation != null) {
-                    Location mLocation = new Location("");
                     latitude = mLastLocation.getLatitude();
                     longitude = mLastLocation.getLongitude();
-                    mLocation.setLatitude(mLastLocation.getLatitude());
-                    mLocation.setLongitude(mLastLocation.getLongitude());
-                    startIntentService(mLocation);
-                    //getAddress();
+                    ClsGeneral.setPreferences(MainActivity.this, ClsGeneral.LATITUTE, ""+mLastLocation.getLatitude());
+                    ClsGeneral.setPreferences(MainActivity.this, ClsGeneral.LONGITUTE, ""+mLastLocation.getLatitude());
+
+                    startIntentService(mLastLocation);
 
                 } else {
+                }*/
+                double currentLatitude = 0, currentLongitude = 0;
+               // Location gpsLocation = getCurrentLocation(LocationManager.GPS_PROVIDER);
+                mLastLocation = getCurrentLocation(LocationManager.GPS_PROVIDER);
+                if (mLastLocation != null) {
+                    currentLatitude = mLastLocation.getLatitude();
+                    currentLongitude = mLastLocation.getLongitude();
+                } else {
+                  //  Location nwLocation = getCurrentLocation(LocationManager.NETWORK_PROVIDER);
+                    mLastLocation = getCurrentLocation(LocationManager.NETWORK_PROVIDER);
+                    if (mLastLocation != null) {
+                        currentLatitude = mLastLocation.getLatitude();
+                        currentLongitude = mLastLocation.getLongitude();
+                    }
+                }
 
-                    //showToast("Couldn't get the location. Make sure location is enabled on the " +
-                    //  "device");
+                if (currentLatitude == 0.0 || currentLongitude == 0.0) {
+                    showSettingsAlert();
+                } else {
+                    startIntentService(mLastLocation);
+                    ClsGeneral.setPreferences(MainActivity.this,
+                            ClsGeneral.LATITUTE, ""+currentLatitude);
+                    ClsGeneral.setPreferences(MainActivity.this,
+                            ClsGeneral.LONGITUTE, ""+currentLongitude);
                 }
             } catch (SecurityException e) {
                 e.printStackTrace();
@@ -779,7 +843,35 @@ public class MainActivity extends BaseActivity implements OnConnectionFailedList
         }
 
     }
+    private void showSettingsAlert() {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
 
+        // Setting Dialog Title
+        alertDialog.setTitle("GPS Settings");
+        alertDialog.setCancelable(false);
+
+        // Setting Dialog Message
+        alertDialog.setMessage("Please help us determine your location to show businesess near you. Click on Settings and turn on. Thanks");
+
+        // On pressing Settings button
+        alertDialog.setPositiveButton("Search", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        // on pressing cancel button
+        alertDialog.setNegativeButton("Settings", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+
+                Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                startActivity(intent);
+            }
+        });
+
+        alertDialog.show();
+    }
     public Address getAddress(double latitude, double longitude) {
         Geocoder geocoder;
         List<Address> addresses;
@@ -947,7 +1039,7 @@ public class MainActivity extends BaseActivity implements OnConnectionFailedList
     @Override
     protected void onResume() {
         super.onResume();
-        checkPlayServices();
+        //checkPlayServices();
 
         String lat = ClsGeneral.getPreferences(MainActivity.this, ClsGeneral.LATITUTE);
         String lon = ClsGeneral.getPreferences(MainActivity.this, ClsGeneral.LONGITUTE);
@@ -962,6 +1054,13 @@ public class MainActivity extends BaseActivity implements OnConnectionFailedList
         }
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        if (locationManager != null)
+            locationManager.removeUpdates(this);
+    }
 
     @Override
     public void onConnected(Bundle arg0) {
@@ -1052,6 +1151,27 @@ public class MainActivity extends BaseActivity implements OnConnectionFailedList
         }
     }
 
+
+    private Location getCurrentLocation(String provider) {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission
+                (this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
+
+        }
+        Location location;
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+        if (locationManager.isProviderEnabled(provider)) {
+            locationManager.requestLocationUpdates(provider, MIN_TIME_FOR_UPDATE, MIN_DISTANCE_FOR_UPDATE, MainActivity.this);
+            if (locationManager != null) {
+                location = locationManager.getLastKnownLocation(provider);
+                return location;
+            }
+        }
+        return null;
+    }
 
     @Override
     public void onScrollChanged(int scrollY, boolean firstScroll, boolean dragging) {

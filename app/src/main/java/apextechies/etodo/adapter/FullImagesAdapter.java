@@ -8,7 +8,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import java.util.ArrayList;
 
 import apextechies.etodo.fragment.FullImageFragment;
-import apextechies.etodo.model.CatBanner;
+import apextechies.etodo.model.OfferBannerDesc;
 
 /**
  * @author Samuel Robert <sam@spotsoon.com>
@@ -17,11 +17,11 @@ import apextechies.etodo.model.CatBanner;
 
 public class FullImagesAdapter extends FragmentStatePagerAdapter {
 	
-	private ArrayList<CatBanner> propertyImagellist = new ArrayList<>();
+	private ArrayList<OfferBannerDesc> propertyImagellist = new ArrayList<>();
 	private final int total_length;
 	private String pos;
 	
-	public FullImagesAdapter(FragmentManager fm, ArrayList<CatBanner> arrayList, int total_length, String pos) {
+	public FullImagesAdapter(FragmentManager fm, ArrayList<OfferBannerDesc> arrayList, int total_length, String pos) {
 		super(fm);
 		this.propertyImagellist = arrayList;
 		this.total_length = total_length;

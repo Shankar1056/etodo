@@ -20,6 +20,7 @@ public class WebServices {
     public static String CITY  = BASE_URL+"index.php/API_TODO/AllCity/getcity";
     public static String HOMESUBCATEGORY  = BASE_URL+"index.php/API_TODO/HomeSubCategory/subcat";
     public static String FEEDBACK  = BASE_URL+"index.php/API_TODO/FeedBack/getfeedback";
+    public static String OFFERS  = BASE_URL+"index.php/API_TODO/OffersNearme/getalloffers";
 
 
     public static String DrawerCATEGORY = BASE_URL+"index.php/API/DrawerCategory/getdrawercategory";

@@ -52,7 +52,7 @@ public class DescData {
 		return category;
 	}
 	
-	public ArrayList<CatBanner> getBanners() {
+	public ArrayList<OfferBannerDesc> getBanners() {
 		return banners;
 	}
 	
@@ -79,7 +79,7 @@ public class DescData {
 	}
 	
 	String shop_image;
-	ArrayList<CatBanner> banners;
+	ArrayList<OfferBannerDesc> banners;
 	
 	public ArrayList<TimingModel> getTimings() {
 		return timings;

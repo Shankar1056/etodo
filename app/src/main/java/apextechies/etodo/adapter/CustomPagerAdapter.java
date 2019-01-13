@@ -1,6 +1,5 @@
 package apextechies.etodo.adapter;
 
-import android.app.Activity;
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -19,12 +18,13 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import apextechies.etodo.R;
+import apextechies.etodo.activity.MainActivity;
 import apextechies.etodo.model.BannerImageModel;
 
 public class CustomPagerAdapter extends PagerAdapter {
 
 	Context mContext;
-	Activity activity;
+	MainActivity activity;
 	LayoutInflater mLayoutInflater;
 	ArrayList<BannerImageModel> models;
 	Timer timer;
@@ -37,7 +37,7 @@ public class CustomPagerAdapter extends PagerAdapter {
 		return models.size();
 	}
 
-	public void setData(ArrayList<BannerImageModel> res, Context context, Activity activity) {
+	public void setData(ArrayList<BannerImageModel> res, Context context, MainActivity activity) {
 		this.models = res;
 		this.mContext = context;
 		this.activity = activity;
@@ -92,6 +92,15 @@ public class CustomPagerAdapter extends PagerAdapter {
 			Log.e("image Exception", e.getMessage());
 		}
 
+		itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (models.get(position).getSlider_id().equalsIgnoreCase("5"))
+                {
+                 //   activity.sendos();
+                }
+            }
+        });
 		container.addView(itemView);
 		if (isDynamic) {
 			if (timer == null) {

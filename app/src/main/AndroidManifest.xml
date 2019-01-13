@@ -146,6 +146,14 @@
             android:name=".activity.FeedBackForm"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.OffersList"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.OfferShopDescription"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar" />
 
 
 
